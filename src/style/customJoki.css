@@ -1,0 +1,28 @@
+.sidebar.collapsed {
+    width: 80px; /* Lebar sidebar saat collapsed */
+  }
+  
+  .sidebar:not(.collapsed) {
+    width: 250px; /* Lebar sidebar saat expanded */
+  }
+  
+  .content-container {
+    transition: margin-left 0.3s ease;
+  }
+  
+  .ml-expanded {
+    margin-left: 250px; /* Sesuaikan dengan lebar sidebar */
+  }
+  
+  .ml-collapsed {
+    margin-left: 80px; /* Lebar sidebar saat collapse */
+  }
+  
+  .notifikasi-container {
+    padding: 20px;
+  }
+  
+  .notification-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  

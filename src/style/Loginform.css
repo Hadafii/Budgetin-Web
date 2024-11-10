@@ -1,0 +1,40 @@
+
+/* Memberikan font Lato ke seluruh form */
+.btn-custom-login {
+  background-color: #15B7B9; 
+  color: #fff;
+  border-radius: 30px; 
+  padding: 10px 0;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom-login:hover {
+  background-color: #027173; 
+  color: #fff;
+}
+
+.btn-custom-login:active {
+  background-color: #e7e7e7 !important; 
+  color: #027173 !important; 
+  border: none;
+  box-shadow: none;
+}
+
+
+.isiformlogin {
+    border-radius: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.sigin-link:hover{
+  color: #009d8a;
+}
+
+.iniformlogin .isiformlogin {
+  padding-left: 25px;
+}
+
+
+

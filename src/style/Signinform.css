@@ -1,0 +1,47 @@
+.signin-form {
+  width: 100%;
+  max-width: 400px; 
+  padding: 20px;
+  border-radius: 10px; 
+  text-align: center;
+  
+}
+
+.signin-button {
+  width: 100%;
+  border-radius: 50px;
+  color: #FFFF;
+  background-color: #15B7B9;
+  border: none;
+  padding: 10px 0;
+  margin-top: 20px;
+}
+
+.signin-button:hover {
+  background-color: #027173; 
+  color: #fff;
+}
+
+.signin-button:active{
+  background-color: #e7e7e7 !important; 
+  color: #027173 !important; 
+  border: none;
+  box-shadow: none;
+}
+.form-select {
+  border-radius: 40px; 
+  height: 60px;
+}
+
+.isiformsignin {
+  border-radius: 30px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.iniformsignin .isiformsignin{
+  padding-left: 25px;
+}
+
+.login-link:hover{
+  color: #009d8a;
+}

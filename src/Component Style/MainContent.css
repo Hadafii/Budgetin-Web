@@ -1,0 +1,14 @@
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.overview {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.overview .card:last-child {
+    margin-right: 0;
+}

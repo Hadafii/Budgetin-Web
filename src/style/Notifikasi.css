@@ -1,0 +1,30 @@
+.notifikasi-container {
+  padding: 20px;
+}
+
+.notification-card {
+  border: none;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px; 
+  font-size: 0.9em; 
+}
+
+.notification-title {
+  font-weight: bold;
+  color: #333;
+  font-size: 1em; 
+}
+
+.notification-message {
+  color: #666;
+  font-size: 0.9em; 
+}
+
+.notification-date {
+  font-size: 0.8em; 
+  color: #999;
+}
+
+

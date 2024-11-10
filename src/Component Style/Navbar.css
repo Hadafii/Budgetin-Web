@@ -1,0 +1,15 @@
+/* Dropdown button */
+.transparent-button {
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid white !important;
+    border-radius: 30px !important;
+  }
+  
+  .transparent-button .dropdown-toggle::after {
+    color: white !important;
+  }
+  
+  .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+  }

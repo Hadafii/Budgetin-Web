@@ -1,0 +1,84 @@
+.transaction-name{
+  color:black;
+}
+
+.laporan-container {
+  padding: 20px;
+  background-color: #f8f9fa; 
+  border-radius: 8px; 
+}
+
+.statistik-keuangan {
+  margin-bottom: 20px;
+  background-color: #fff; 
+  padding: 20px; 
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  transform: scale(1); 
+}
+.chart-placeholder {
+  margin-top: 10px; 
+  height: 300px; 
+}
+
+.transaction-list {
+  margin-top: 20px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  background-color: #ffffff; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 5px; 
+  padding: 10px;
+  margin-bottom: 10px; 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s; 
+}
+
+.transaction-item:hover {
+  transform: scale(1.02); 
+}
+
+.icon-image {
+  width: 40px; 
+  height: 40px; 
+  margin-right: 10px; 
+}
+
+.transaction-info {
+  flex-grow: 1; 
+}
+
+.transaction-name {
+  font-weight: bold; 
+}
+
+.transaction-date {
+  color: #6c757d; 
+}
+
+.transaction-amount {
+  font-weight: bold;
+  color: #dc3545; 
+}
+
+.dropdown-toggle {
+  background-color: #00bfa6; 
+  border: 3px; 
+  color: white; 
+}
+
+.dropdown-toggle:hover{
+  background-color:#00bfa6;
+
+}
+.dropdown-toggle:active{
+  background-color:#00bfa6;
+}
+
+.dropdown-menu {
+  min-width: 100px; 
+}

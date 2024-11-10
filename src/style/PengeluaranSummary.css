@@ -1,0 +1,125 @@
+.Pengeluaran-summary-container {
+    width: 100%; 
+    padding: 20px;
+    background-color: #f2f2f2; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    margin: 0; 
+    flex: 1;
+}
+
+.Pengeluaran-summary {
+    text-align: center; 
+    background-color: white; 
+    padding: 50px; 
+    border-radius: 15px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); 
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+.Pengeluaran-summary h1 {
+    font-size: 2.5rem; 
+    color: #333; 
+    margin-bottom: 10px; 
+}
+
+.Pengeluaran-summary p {
+    color: #666; 
+    font-size: 1.2rem; 
+    margin-top: 10px; 
+    margin-bottom: 50px; 
+}
+
+.summary-content {
+    margin-bottom: 20px; 
+}
+
+.expense-item {
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+    padding: 15px 30px; 
+    border-radius: 8px; 
+    background-color: #f0f0f0; 
+}
+
+.expense-item .description {
+    color: #333; 
+    font-size: 1.2rem; 
+}
+
+.expense-item .amount {
+    color: #333; 
+    font-weight: bold; 
+    font-size: 1.2rem; 
+}
+
+.total-row {
+    background-color: #ffcc80; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    font-size: 1.5rem; 
+    margin-bottom: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+}
+
+.saldo-row {
+    background-color: #ffecb3; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    font-size: 1.1rem; 
+    display: flex; 
+    justify-content: space-between; 
+}
+
+.total-row span, 
+.saldo-row span {
+    font-weight: bold; 
+    font-size: 1.1rem; 
+}
+
+.btn-back {
+    background-color: #00b4b8 !important; 
+    border: none; 
+    padding: 15px 40px; 
+    border-radius: 30px; 
+    margin-top: 30px; 
+    font-size: 1.2rem; 
+    transition: background-color 0.3s ease; 
+}
+
+.btn-back:hover {
+    background-color: #009eaa; 
+}
+
+@media (max-width: 768px) {
+    .Pengeluaran-summary-container {
+        padding: 15px; 
+    }
+
+    .Pengeluaran-summary h1 {
+        font-size: 1.5rem;
+    }
+
+    .Pengeluaran-summary p {
+        font-size: 1rem; 
+    }
+
+    .expense-item {
+        flex-direction: column; 
+        align-items: flex-start; 
+        padding: 10px; 
+    }
+
+    .total-row, .saldo-row {
+        flex-direction: column;
+        align-items: flex-start; 
+    }
+
+    .btn-back {
+        width: 100%; 
+    }
+}
