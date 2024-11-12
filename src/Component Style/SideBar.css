@@ -164,7 +164,8 @@
   }
 
   .custom-offcanvas {
-      width: 100% !important;
-      max-width: 100%;
-  }
+    width: 100% !important;
+    max-width: 85% !important; /* Mengatur max-width menjadi 90% */
+}
+
 }

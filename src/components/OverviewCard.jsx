@@ -8,19 +8,19 @@ import '../Component Style/OverviewCard.css';
 
 const OverviewCard = () => {
   return (
-    <div className="overview-container rounded-5 p-4 shadow">
+    <div className="overview-container rounded-4 p-3 shadow">
       <h2>Overview</h2>
-      <Row className="g-3">
-        <Col xs={12}>
+      <div className="row g-3">
+        <div className="col-12">
           <CardCurrentMoney />
-        </Col>
-        <Col xs={12} md={6}>
+        </div>
+        <div className="col-12 col-md-6">
           <CardPengeluaran />
-        </Col>
-        <Col xs={12} md={6}>
+        </div>
+        <div className="col-12 col-md-6">
           <CardPemasukan />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };

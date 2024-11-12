@@ -16,8 +16,8 @@ const LandingPage = () => {
   return (
     <div>
       {/* Navbar */}
-      <Navbar sticky="top" style={{ backgroundColor: '#15B7B9' }} variant="dark" expand="md" className="px-4 shadow-sm container-fluid">
-        <Navbar.Brand href="#" className="d-flex align-items-center">
+      <Navbar sticky="top" style={{ backgroundColor: '#15B7B9' }} variant="dark" expand="md" className="px-4 shadow-sm container-fluid py-0">
+        <Navbar.Brand href="#" className="d-flex align-items-center pb-2">
           <img src={BudgetinLogo} alt="Budgetin Logo" width="130" height="40" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />

@@ -69,7 +69,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
       )}
 
       {/* Offcanvas untuk layar kecil */}
-      <Offcanvas  show={showOffcanvas} onHide={handleCloseOffcanvas} scroll={false} backdrop={true} className="bg-light custom-offcanvas">
+      <Offcanvas  show={showOffcanvas} onHide={handleCloseOffcanvas} scroll={true} backdrop={true} className="bg-light custom-offcanvas overflow-auto">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
