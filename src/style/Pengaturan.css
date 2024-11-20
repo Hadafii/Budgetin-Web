@@ -1,0 +1,14 @@
+.button-delete-account{
+    background-color: #00b4b8 !important;
+    border: none !important;
+}
+
+.button-delete-account:hover{
+    background-color: #027173 !important;
+    border: none !important;
+}
+
+.button-delete-account:active{
+    background-color: #027173 !important;
+    border: none !important;
+}

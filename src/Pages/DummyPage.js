@@ -1,262 +1,190 @@
 import React, { useState } from 'react';
-import { Button, Form, Container, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import '../style/Signinform.css';
+import { Container, Row, Col, ListGroup, Badge, Nav, Dropdown, ButtonGroup } from 'react-bootstrap';
 
-function Signinform() {
-  const [validated, setValidated] = useState(false);
-  const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [dobError, setDobError] = useState('');
-  const [genderError, setGenderError] = useState('');
-  const [roleError, setRoleError] = useState('');
-  const [error, setError] = useState('');
+const RecentActivity = () => {
+  const [filter, setFilter] = useState('all');
+  const [selectedMonth, setSelectedMonth] = useState('All Months');
+  const [selectedYear, setSelectedYear] = useState('All Years');
 
-  // Individual states for controlling validation styles
-  const [usernameValid, setUsernameValid] = useState(null);
-  const [emailValid, setEmailValid] = useState(null);
-  const [passwordValid, setPasswordValid] = useState(null);
-  const [nameValid, setNameValid] = useState(null);
-  const [dobValid, setDobValid] = useState(null);
-  const [genderValid, setGenderValid] = useState(null);
-  const [roleValid, setRoleValid] = useState(null);
+  const months = [
+    'January', 'February', 'March', 'April', 'May',
+    'June', 'July', 'August', 'September', 'October',
+    'November', 'December'
+  ];
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    let hasError = false;
+  const years = ['2020', '2021', '2022', '2023'];
 
-    // Username validation
-    const username = form.formBasicUsername.value.trim();
-    if (!username) {
-      setUsernameError('Please enter a username.');
-      setUsernameValid(false);
-      hasError = true;
-    } else {
-      const checkUsername = async (username) => {
-        const token = localStorage.getItem("token"); // Assumes JWT is stored in localStorage
-        try {
-            const response = await fetch(`/GatewayApi/v1/checkUsername?username=${username}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Attach JWT here
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error("Failed to validate username");
-            }
-    
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error("Error in checkUsername:", error);
-            return { success: false, message: "Error validating username" };
-        }
-    };
-    
-    }
+  const transactions = [
+    {
+      date: '2020-09-13',
+      data: [
+        {
+          id: 1,
+          icon: 'bi-arrow-left-right',
+          title: 'Amazon Support',
+          category: 'Supplies',
+          type: 'Earning',
+          amount: '+$10,100.00',
+          time: '2020-09-13',
+          categoryColor: 'warning',
+          typeColor: 'success',
+        },
+      ],
+    },
+    {
+      date: '2020-09-10',
+      data: [
+        {
+          id: 2,
+          icon: 'bi-building',
+          title: 'Roland GmbH',
+          category: 'Marketing',
+          type: 'Spending',
+          amount: '-$50,400.00',
+          time: '2020-09-10',
+          categoryColor: 'info',
+          typeColor: 'danger',
+        },
+        {
+          id: 3,
+          icon: 'bi-arrow-left-right',
+          title: 'Bank of America',
+          category: 'Office supplies',
+          type: 'Spending',
+          amount: '-$10,100.00',
+          time: '2020-09-10',
+          categoryColor: 'primary',
+          typeColor: 'danger',
+        },
+      ],
+    },
+  ];
 
-    // Email validation
-    const email = form.formEmail.value.trim();
-    if (!email) {
-      setEmailError('Please enter an email address.');
-      setEmailValid(false);
-      hasError = true;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Please enter a valid email address.');
-      setEmailValid(false);
-      hasError = true;
-    } else {
-      setEmailError('');
-      setEmailValid(true);
-    }
-
-    // Password validation
-    const password = form.formBasicPassword.value.trim();
-    const invalidCharPattern = /[\u3164]/;
-    if (password.length < 8) {
-      setPasswordError('Password must be at least 8 characters long.');
-      setPasswordValid(false);
-      hasError = true;
-    } else if (invalidCharPattern.test(password)) {
-      setPasswordError('Password contains invalid characters.');
-      setPasswordValid(false);
-      hasError = true;
-    } else {
-      setPasswordError('');
-      setPasswordValid(true);
-    }
-
-    // Name validation
-    const name = form.formNama.value.trim();
-    if (!name) {
-      setNameValid(false);
-      hasError = true;
-    } else {
-      setNameError('');
-      setNameValid(true);
-    }
-
-    // Date of Birth validation
-    const dob = form.formTanggalLahir.value;
-    if (!dob) {
-      setDobValid(false);
-      hasError = true;
-    } else {
-      setDobError('');
-      setDobValid(true);
-    }
-
-    // Gender validation
-    const gender = form.formJenisKelamin.value;
-    if (!gender) {
-      setGenderValid(false);
-      hasError = true;
-    } else {
-      setGenderError('');
-      setGenderValid(true);
-    }
-
-    // Occupation validation
-    const role = form.formRole.value;
-    if (!role) {
-      setRoleValid(false);
-      hasError = true;
-    } else {
-      setRoleError('');
-      setRoleValid(true);
-    }
-
-    if (hasError) {
-      setError('Please fill out all required fields correctly.');
-    } else {
-      setError('');
-      setValidated(true);
-      const registerUser = async (userData) => {
-        const token = localStorage.getItem("token");
-    
-        try {
-            const response = await fetch('/GatewayApi/v1/registerUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(userData)
-            });
-    
-            if (response.status === 401) {
-                // Token is invalid or expired
-                console.error("Unauthorized - redirecting to login");
-                window.location.href = "/login"; // Redirect to login
-                return;
-            }
-    
-            if (!response.ok) {
-                throw new Error("Failed to register user");
-            }
-    
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error("Error in registerUser:", error);
-            return { success: false, message: "Error registering user" };
-        }
-    };
-    
-    }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
   };
 
+  const filteredTransactions = transactions.map((day) => ({
+    ...day,
+    data: day.data.filter((transaction) => {
+      const transactionDate = new Date(transaction.time);
+      const monthMatch =
+        selectedMonth === 'All Months' ||
+        months[transactionDate.getMonth()] === selectedMonth;
+      const yearMatch =
+        selectedYear === 'All Years' ||
+        transactionDate.getFullYear().toString() === selectedYear;
+      const typeMatch = filter === 'all' || transaction.type.toLowerCase() === filter;
+
+      return monthMatch && yearMatch && typeMatch;
+    }),
+  }));
+
   return (
-    <Container className="signin-container d-flex justify-content-center align-items-center vh-100">
-      <Form noValidate validated={validated} onSubmit={handleSubmit} className="signin-form p-4">
-        <h1 className="text-center mb-3"><b>Create Account</b></h1>
-
-        <FloatingLabel controlId="formBasicUsername" label="Username" className="mb-3">
-          <Form.Control 
-            type="text" 
-            placeholder="Username" 
-            required 
-            isInvalid={usernameValid === false} 
-            isValid={usernameValid === true} 
-          />
-          <Form.Text className="text-danger">{usernameError}</Form.Text>
-        </FloatingLabel>
-
-        <FloatingLabel controlId="formBasicPassword" label="Password" className="mb-3">
-          <Form.Control 
-            type="password" 
-            placeholder="Password" 
-            required 
-            isInvalid={passwordValid === false} 
-            isValid={passwordValid === true} 
-          />
-          <Form.Text className="text-danger">{passwordError}</Form.Text>
-        </FloatingLabel>
-
-        <FloatingLabel controlId="formNama" label="Name" className="mb-3">
-          <Form.Control 
-            type="text" 
-            placeholder="Name" 
-            required 
-            isInvalid={nameValid === false} 
-            isValid={nameValid === true} 
-          />
-        </FloatingLabel>
-
-        <FloatingLabel controlId="formEmail" label="Email" className="mb-3">
-          <Form.Control 
-            type="email" 
-            placeholder="Email" 
-            required 
-            isInvalid={emailValid === false} 
-            isValid={emailValid === true} 
-          />
-          <Form.Text className="text-danger">{emailError}</Form.Text>
-        </FloatingLabel>
-
-        <FloatingLabel controlId="formTanggalLahir" label="Date of Birth" className="mb-3">
-          <Form.Control 
-            type="date" 
-            required 
-            isInvalid={dobValid === false} 
-            isValid={dobValid === true} 
-          />
-        </FloatingLabel>
-
-        <Form.Group controlId="formJenisKelamin" className="mb-3">
-          <Form.Select required aria-label="Gender" isInvalid={genderValid === false} isValid={genderValid === true}>
-            <option selected disabled value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Rather not say</option>
-          </Form.Select>
-        </Form.Group>
-
-        <Form.Group controlId="formRole" className="mb-4">
-          <Form.Select required aria-label="Occupation" isInvalid={roleValid === false} isValid={roleValid === true}>
-            <option selected disabled value="">Select Occupation</option>
-            <option value="Student">Student</option>
-            <option value="Worker">Worker</option>
-          </Form.Select>
-        </Form.Group>
-
-        {error && <p className="text-danger">{error}</p>}
-
-        <Button type="submit" className="signin-button w-100 mb-3">
-          Sign Up
-        </Button>
-
-        <div className="text-center">
-          <p>Already have an account? <Link to="/login" className="login-link">Log in here!</Link></p>
-        </div>
-      </Form>
+    <Container>
+      <Row className="mb-4">
+        <Col>
+          <h2>Recent Activity</h2>
+        </Col>
+      </Row>
+      <Row className="align-items-center mb-3">
+        <Col xs={12} md={8} className="mb-2 mb-md-0">
+          <Nav variant="tabs" defaultActiveKey="all" className="w-100">
+            <Nav.Item>
+              <Nav.Link eventKey="all" onClick={() => setFilter('all')}>
+                All History
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="earning" onClick={() => setFilter('earning')}>
+                Earning History
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="spending" onClick={() => setFilter('spending')}>
+                Spending History
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Col>
+        <Col xs={12} md={4} className="d-flex justify-content-md-end flex-column flex-md-row">
+          <Dropdown as={ButtonGroup} className="mb-2 mb-md-0 me-md-2">
+            <Dropdown.Toggle variant="outline-primary">{selectedMonth}</Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setSelectedMonth('All Months')}>All Months</Dropdown.Item>
+              {months.map((month) => (
+                <Dropdown.Item key={month} onClick={() => setSelectedMonth(month)}>
+                  {month}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle variant="outline-primary">{selectedYear}</Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setSelectedYear('All Years')}>All Years</Dropdown.Item>
+              {years.map((year) => (
+                <Dropdown.Item key={year} onClick={() => setSelectedYear(year)}>
+                  {year}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {filteredTransactions.map((day) =>
+            day.data.length > 0 ? (
+              <div key={day.date} className="mb-4">
+                <h6 className="text-muted">{formatDate(day.date)}</h6>
+                <ListGroup variant="flush">
+                  {day.data.map((transaction) => (
+                    <ListGroup.Item
+                    key={transaction.id}
+                    className="d-flex justify-content-between align-items-center flex-wrap"
+                  >
+                    <Row className="align-items-center w-100">
+                      <Col xs={1} md={1} className="text-center">
+                        <i className={`bi ${transaction.icon} fs-4 text-secondary`}></i>
+                      </Col>
+                      <Col xs={4} md={3}>
+                        <div className="fw-bold">{transaction.title}</div>
+                      </Col>
+                      <Col xs={5} md={3} className="text-center text-md-start">
+                        <div className="text-muted">{formatDate(transaction.time)}</div>
+                      </Col>
+                      <Col xs={12} md={2} className="text-center d-none d-md-block">
+                        <Badge bg={transaction.categoryColor} className="text-capitalize">
+                          {transaction.category}
+                        </Badge>
+                      </Col>
+                      <Col xs={12} md={2} className="text-center d-none d-md-block">
+                        <Badge bg={transaction.typeColor} className="text-capitalize">
+                          {transaction.type}
+                        </Badge>
+                      </Col>
+                      <Col xs={2} md={1} className="text-end fw-bold">
+                        {transaction.amount}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  
+                  ))}
+                </ListGroup>
+              </div>
+            ) : null
+          )}
+        </Col>
+      </Row>
     </Container>
   );
-}
+};
 
-export default Signinform;
+export default RecentActivity;

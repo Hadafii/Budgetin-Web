@@ -1,10 +1,10 @@
 .sidebar {
-  position: fixed; /* Sidebar stays fixed on the left */
-  top: 0px; /* Adjust this value to match your Navbar height */
+  position: fixed; 
+  top: 0px; 
   left: 0;
-  width: 250px; /* Sidebar width */
-  background-color: #E9E9ED; /* Sidebar background color */
-  z-index: 5; /* Keeps the sidebar below the Navbar */
+  width: 250px; 
+  background-color: #E9E9ED; 
+  z-index: 5; 
   transition: width 0.3s ease;
 }
 
@@ -17,7 +17,7 @@
   font-weight: bold;
   background-color: #E9E9ED;
   border-left: 4px solid #15B7B9;
-  padding-left: calc(0.75rem - 4px); /* Adjust padding to account for border */
+  padding-left: calc(0.75rem - 4px); 
 }
 
 .sidebar.collapsed {
@@ -79,8 +79,8 @@
 }
 
 .custom-offcanvas {
-  width: 0px; /* Adjust the width as needed */
-  max-width: 280px; /* Prevents overflow on smaller screens */
+  width: 0px; 
+  max-width: 280px; 
 }
 
 
@@ -165,7 +165,7 @@
 
   .custom-offcanvas {
     width: 100% !important;
-    max-width: 85% !important; /* Mengatur max-width menjadi 90% */
+    max-width: 85% !important; 
 }
 
 }

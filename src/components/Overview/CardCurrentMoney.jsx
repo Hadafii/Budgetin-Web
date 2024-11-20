@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import EmptyWallet from '../../Assets/empty-wallet.svg'
 
 const CardCurrentMoney = () => {
   const [balance, setBalance] = useState(null);
@@ -21,7 +22,7 @@ const CardCurrentMoney = () => {
         });
         const result = await response.json();
         if (result.success) {
-          setBalance(result.balance); // Update balance state with fetched data
+          setBalance(result.balance); 
         } else {
           console.error("Failed to fetch balance:", result.message);
         }
@@ -34,16 +35,14 @@ const CardCurrentMoney = () => {
   }, []);
 
   return (
-    <Card className="p-4 shadow-sm rounded-4 text-white" style={{ backgroundColor: '#15B7B9' }}>
+    <Card className="px-4 shadow-sm rounded-4 text-white" style={{ backgroundColor: '#15B7B9' }}>
       <Card.Body>
         <div className="d-flex align-items-center mb-3">
-          <i className="bi bi-wallet2 fs-2 me-3"></i>
-          <div>
-            <h6 style={{ fontSize: '1.1rem', fontWeight: '600' }}>Uang Kamu</h6>
-            <p className="text-light">
-              <i className="bi bi-arrow-up-right text-success"></i>
-              15 % Dibanding bulan kemarin!
-            </p>
+        <div className='border rounded-circle'>
+            <img src={EmptyWallet} className='p-1' width='50px' ></img>
+          </div>
+          <div className='ps-2'>
+            <h4 >Uang Kamu</h4>
           </div>
         </div>
         <hr />

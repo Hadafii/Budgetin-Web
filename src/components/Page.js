@@ -9,7 +9,6 @@ const Page = ({children, collapsed, toggleSidebar, showOffcanvas, handleShowOffc
         <div className="d-flex flex-row">
         <Sidebar isCollapsed={collapsed} toggleSidebar={toggleSidebar} showOffcanvas={showOffcanvas} handleShowOffcanvas={handleShowOffcanvas} handleCloseOffcanvas={handleCloseOffcanvas} />
         <div className={`flex-grow-1 page-content ${collapsed ? 'collapsed' : ''}`}>
-         
           <div className="page-container">
             {children}
           </div>

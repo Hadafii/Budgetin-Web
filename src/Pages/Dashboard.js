@@ -1,86 +1,117 @@
-import React, { useState, useEffect } from 'react';
-import Overview from '../components/OverviewCard';
-import '../style/Dashboard.css';
-import Page from '../components/Page';
+import React, { useState, useEffect } from "react";
+import OverviewCard from "../components/OverviewCard";
+import BudgetCard from "../components/Sisa Budget/CardSisaBudget";
+import TransaksiTerbaru from "../components/LaporanKeuangan/TransaksiTerbaru";
+import OverviewLaporanUangRechart from "../components/LaporanKeuangan/OverviewLaporanUangRechart";
+import "../style/Dashboard.css";
+import Page from "../components/Page";
 
 function Dashboard({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas, handleCloseOffcanvas }) {
-    const [userData, setUserData] = useState(null);
     const [accountName, setAccountName] = useState("");
-    
+    const [isLoading, setIsLoading] = useState(true);
+
+    const refreshToken = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/Login";
+            return;
+        }
+
+        try {
+            const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/refreshToken", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                localStorage.setItem("token", result.token); 
+                return true;
+            } else {
+                localStorage.removeItem("token"); 
+                window.location.href = "/Login";
+                return false;
+            }
+        } catch (err) {
+            console.error("Failed to refresh token:", err);
+            localStorage.removeItem("token");
+            window.location.href = "/Login";
+        }
+    };
+
+    const fetchAccountName = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/Login";
+            return;
+        }
+
+        try {
+            const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/AccountName", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                setAccountName(result.account_name);
+            } else if (result.message === "Token expired") {
+                console.warn("Token expired. Attempting to refresh...");
+                const refreshed = await refreshToken();
+                if (refreshed) {
+                    fetchAccountName(); 
+                }
+            } else {
+                console.error("Failed to fetch account name:", result.message);
+            }
+        } catch (err) {
+            console.error("Failed to fetch account name:", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                window.location.href = "/Login";
-                return;
-            }
-
-            try {
-                const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/users", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                const result = await response.json();
-                if (result.success) {
-                    setUserData(result.data);
-                } else {
-                    localStorage.removeItem("token");
-                    window.location.href = "/Login";
-                }
-            } catch (err) {
-                console.error("Failed to fetch user data:", err);
-                localStorage.removeItem("token");
-                window.location.href = "/Login";
-            }
-        };
-
-        const fetchAccountName = async () => {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/AccountData", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                const result = await response.json();
-                console.log("Account Name Result:", result); // Log response
-
-                if (result.success) {
-                    setAccountName(result.account_name); // Simpan `account_name` di state `accountName`
-                } else {
-                    console.error("Failed to fetch account name:", result.message);
-                }
-            } catch (err) {
-                console.error("Failed to fetch account name:", err);
-            }
-        };
-
-        fetchUserData();
         fetchAccountName();
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.href = "/Login";
-    };
-
     return (
-    <Page 
-        collapsed={collapsed} 
-        toggleSidebar={toggleSidebar} 
-        showOffcanvas={showOffcanvas}
-        handleShowOffcanvas={handleShowOffcanvas}
-        handleCloseOffcanvas={handleCloseOffcanvas}
-    >
+        <Page
+            collapsed={collapsed}
+            toggleSidebar={toggleSidebar}
+            showOffcanvas={showOffcanvas}
+            handleShowOffcanvas={handleShowOffcanvas}
+            handleCloseOffcanvas={handleCloseOffcanvas}
+        >
             <div className="container">
-                <h1><b>Hi, {accountName || "Pengguna"}!</b></h1> {/* Menggunakan accountName */}
+                <h1>
+                    <strong>{isLoading ? "Loading..." : `Hi, ${accountName || "Pengguna"}!`}</strong>
+                </h1>
                 <p>Selamat datang di dashboard Anda!</p>
-                <Overview />
-                <button onClick={handleLogout} className="btn btn-danger mt-3">Logout</button>
+
+                <div className="row-flex pb-3">
+                    <div className=" overview">
+                        <OverviewCard />
+                    </div>
+                    <div className=" budget-card">
+                        <BudgetCard />
+                    </div>
+                </div>
+
+                <div className="row-flex pb-3">
+                    <div className="overview-laporan">
+                        <OverviewLaporanUangRechart />
+                    </div>
+                    <div className="transaksi-terbaru">
+                        <TransaksiTerbaru />
+                    </div>
+                </div>
             </div>
-    </Page>
+        </Page>
     );
 }
 

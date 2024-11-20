@@ -1,17 +1,68 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button, Modal, Form, FloatingLabel, InputGroup, Spinner, Alert } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Page from '../components/Page';
 import '../style/Pengaturan.css';
 
 function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas, handleCloseOffcanvas }) {
+  const [show, setShow] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false); 
+  const [feedbackMessage, setFeedbackMessage] = useState(""); 
+  const [isInvalidPassword, setIsInvalidPassword] = useState(false); 
+  const [showAlert, setShowAlert] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState(""); 
 
-  const handleBackupData = () => {
-    alert('Data berhasil dicadangkan ke cloud!');
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const togglePasswordVisibility = () => {
+    setShowCurrentPassword(!showCurrentPassword);
   };
 
-  const handleRestoreData = () => {
-    alert('Data berhasil dipulihkan dari cadangan!');
+  const handleDeleteAccount = async () => {
+    if (!currentPassword) {
+      setFeedbackMessage("Kata sandi harus diisi!");
+      setIsInvalidPassword(true);
+      return;
+    }
+
+    setIsDeleting(true);
+    setFeedbackMessage("");
+    setIsInvalidPassword(false);
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/deleteAccount", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password: currentPassword }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setAlertMessage("Akun Anda berhasil dihapus. Semua data telah dihapus dari sistem kami.");
+        setShowAlert(true);
+
+        setTimeout(() => {
+          localStorage.clear(); 
+          window.location.href = "/"; 
+        }, 2000); 
+      } else {
+        setFeedbackMessage(result.message || "Gagal menghapus akun.");
+        setIsInvalidPassword(true);
+      }
+    } catch (error) {
+      setFeedbackMessage("Terjadi kesalahan saat menghapus akun.");
+      console.error("Error deleting account:", error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -24,29 +75,8 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
     >
 
         <div className="container mt-4">
-          <h1>Pengaturan</h1>
+          <h2>Pengaturan</h2>
           <Accordion alwaysOpen>
-
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Cadangkan & Pulihkan</Accordion.Header>
-              <Accordion.Body>
-              <div className="backup-section container ">
-                <Col className="">
-                  <Row xs={12} sm={6} className=" py-3">
-                    <button className="btn btn-primary w-100" onClick={handleBackupData}>
-                      Cadangkan Data
-                    </button>
-                  </Row>
-                  <Row xs={12} sm={6}>
-                    <button className="btn btn-secondary w-100" onClick={handleRestoreData}>
-                      Pulihkan Data
-                    </button>
-                  </Row>
-                </Col>
-              </div>
-              </Accordion.Body>
-            </Accordion.Item>
-
             <Accordion.Item eventKey="1">
               <Accordion.Header>Informasi Aplikasi</Accordion.Header>
               <Accordion.Body>
@@ -59,12 +89,73 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
             </Accordion.Item>
 
             <Accordion.Item eventKey="2">
-              <Accordion.Header>Logout</Accordion.Header>
+              <Accordion.Header>Melihat dan Mengubah Profile</Accordion.Header>
               <Accordion.Body>
-                <button className="btn btn-danger" onClick={() => alert('Logout berhasil!')}>Keluar dari Akun</button>
+                <p>Pengguna dapat melihat dan mengubah isi-isi profil nya sesuai dengan ketentuan yang ada. Pengguna dapat menemukan laman Profil dengan klik Profil pada <i>Navigation Bar.</i> atau dengan klik button dibawah ini.</p>
+                <Button className='button-delete-account' href='/Profile'>Masuk Ke Profile</Button>
+              </Accordion.Body>
+            </Accordion.Item> 
+
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>Bahasa dan Mata Uang</Accordion.Header>
+              <Accordion.Body>
+                <p>Budgetin menggunakan Bahasa Indonesia dan mata uang Rupiah sebagai standar.</p>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
+
+          <div className='mt-3 mx-2'>
+          <Button variant="danger" onClick={handleShow}>
+            Hapus Akun Anda
+          </Button>
+        </div>
+
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Anda Yakin Ingin Menghapus Akun?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Semua history dan data dari akun akan dihapus. Anda tidak dapat login lagi!</p>
+            
+            {showAlert && (
+              <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
+                {alertMessage}
+              </Alert>
+            )}
+
+            <Form>
+              <InputGroup className="mb-3">
+                <FloatingLabel label="Kata Sandi" className="flex-grow-1">
+                  <Form.Control
+                    type={showCurrentPassword ? "text" : "password"}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="Masukkan kata sandi Anda"
+                    isInvalid={isInvalidPassword} 
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {feedbackMessage || "Password salah. Silakan coba lagi."}
+                  </Form.Control.Feedback>
+                </FloatingLabel>
+                <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
+                  <i className={`bi ${showCurrentPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
+                </InputGroup.Text>
+              </InputGroup>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose} disabled={isDeleting}>
+              Cancel
+            </Button>
+            <Button 
+              className='button-delete-account'
+              onClick={handleDeleteAccount} 
+              disabled={isDeleting}
+            >
+              {isDeleting ? <Spinner animation="border" size="sm" /> : "Confirm"}
+            </Button>
+          </Modal.Footer>
+        </Modal>
         </div>
     </Page>
   );

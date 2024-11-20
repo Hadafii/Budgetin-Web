@@ -31,10 +31,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
             {!isCollapsed && <span>Notifikasi</span>}
           </Nav.Link>
           <Nav.Link href="/Laporan" className={`d-flex align-items-center p-3 px-4 ${isActive('/Laporan') ? 'active' : ''}`}>
-            <i className="bi bi-bar-chart-fill me-2"></i>
+            <i className="bi bi-bar-chart-line-fill me-2"></i>
             {!isCollapsed && <span>Laporan Keuangan</span>}
           </Nav.Link>
-          <hr />
+            <hr />
           <Nav.Link href="/Pengaturan" className={`d-flex align-items-center p-3 px-4 ${isActive('/Pengaturan') ? 'active' : ''}`}>
             <i className="bi bi-gear-fill me-2"></i>
             {!isCollapsed && <span>Pengaturan</span>}
@@ -45,13 +45,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
             <i className="bi bi-question-circle-fill me-2"></i>
             {!isCollapsed && <span>Bantuan</span>}
           </Nav.Link>
-          <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4">
+          <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4" style={{color:'red'}} >
             <i className="bi bi-box-arrow-left me-2"></i>
             {!isCollapsed && <span>Keluar</span>}
           </Nav.Link>
           <button 
             onClick={toggleSidebar} 
             className="btn toggle-btn-asoy text-white shadow"
+            
           >
             <i className={`bi ${isCollapsed ? 'bi-chevron-right' : 'bi-chevron-left'}`}></i>
           </button>
@@ -88,7 +89,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
               <span>Notifikasi</span>
             </Nav.Link>
             <Nav.Link href="/Laporan" className={`d-flex align-items-center p-3 px-4 ${isActive('/Laporan') ? 'active' : ''}`}>
-              <i className="bi bi-bar-chart-fill me-2"></i>
+              <i className="bi bi-bar-chart-line-fill me-2"></i>
               <span>Laporan Keuangan</span>
             </Nav.Link>
             <hr />
@@ -103,7 +104,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
               <span>Bantuan</span>
             </Nav.Link>
             <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4 " >
-              <i className="bi bi-box-arrow-left me-2"></i>
+              <i className="bi bi-box-arrow-left me-2" ></i>
               <span>Keluar</span>
             </Nav.Link>
           </Nav>

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Container, FloatingLabel, Form, Button } from "react-bootstrap";
+import { Container, FloatingLabel, Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../style/Loginform.css";
 
-function Loginform() {
+function Loginform({ onLoginSuccess }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); 
     const [validated, setValidated] = useState(false);
     const [error, setError] = useState("");
     const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
@@ -28,10 +29,10 @@ function Loginform() {
             hasError = true;
         }
         if (hasError) return;
+
         try {
             const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/loginUser", {
                 method: "POST",
-                
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
             });
@@ -39,7 +40,7 @@ function Loginform() {
 
             if (result.success) {
                 localStorage.setItem("token", result.token);
-                console.log("Token saved:", result.token);
+                onLoginSuccess();
                 window.location.href = "/Dashboard";
             } else {
                 setError("Invalid username or password");
@@ -54,14 +55,13 @@ function Loginform() {
             setIsPasswordInvalid(true);
             setValidated(false);
         }
-        
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{ width: '300px', textAlign: 'center' }}>
-                <h1><b>Hello</b></h1>
-                <p>Sign in to your Budgetin account</p>
+        <Container className="login-container d-flex justify-content-center align-items-center">
+            <Form noValidate validated={validated} onSubmit={handleSubmit} className="login-form text-center">
+                <h1><b>Halo!</b></h1>
+                <p>Sign in ke akun Budgetin mu!</p>
 
                 <FloatingLabel controlId="formBasicUsername" label="Username " className="mb-3 iniformlogin">
                     <Form.Control
@@ -71,39 +71,69 @@ function Loginform() {
                         value={username}
                         onChange={(e) => {
                             setUsername(e.target.value);
-                            setIsUsernameInvalid(false); // Reset error saat mengubah input
+                            setIsUsernameInvalid(false); 
                         }}
                         required
                         isInvalid={isUsernameInvalid}
                     />
                 </FloatingLabel>
 
-                <FloatingLabel controlId="formBasicPassword" label="Password" className="mb-3 iniformlogin">
-                    <Form.Control
-                        type="password"
-                        className="isiformlogin"
-                        placeholder="password"
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                            setIsPasswordInvalid(false); // Reset error saat mengubah input
+                <InputGroup className="mb-3">
+                    <FloatingLabel controlId="formBasicPassword" label="Password" className="iniformlogin w-100">
+                        <Form.Control
+                            type={showPassword ? "text" : "password"} 
+                            className="isiformlogin isiformlogin-password"
+                            placeholder="password"
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setIsPasswordInvalid(false); 
+                            }}
+                            required
+                            autoComplete="current-password"
+                            isInvalid={isPasswordInvalid}
+                        />
+                        <Button
+                        variant="outline-secondary"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)} 
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            zIndex: "5",
+                            border: "none",
+                            backgroundColor: "transparent",
                         }}
-                        required
-                        autoComplete="current-password"
-                        isInvalid={isPasswordInvalid}
-                    />
-                </FloatingLabel>
+                    >
+                        <i className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}></i>
+                    </Button>
+                    </FloatingLabel>
+                    
+                </InputGroup>
 
-                {/* Pesan error umum hanya di atas tombol login */}
-                {error && <p className="text-danger">{error}</p>}
-                
-                
-                <Button type="submit" className="btn-custom-login w-100">
+                {error && (
+                    <>
+                        <p className="text-danger">{error}</p>
+                        <p className="text-center mt-2">
+                            Forgot your password?{" "}
+                            <Link to="/forgot-password" className="sigin-link">
+                                Click here
+                            </Link>
+                        </p>
+                    </>
+                )}
+
+                <Button type="submit" className="btn-custom-budegetin-1 w-100">
                     Log In
                 </Button>
 
                 <p className="mt-3">
-                    Don't have an account? <Link to="/signin" className="sigin-link">Sign up</Link>
+                    Belum memiliki akun?{" "}
+                    <Link to="/signin" className="sigin-link">
+                        Sign up disini!
+                    </Link>
                 </p>
             </Form>
         </Container>

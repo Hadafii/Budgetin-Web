@@ -8,7 +8,7 @@ import '../Component Style/OverviewCard.css';
 
 const OverviewCard = () => {
   return (
-    <div className="overview-container rounded-4 p-3 shadow">
+    <div className="rounded-4 p-3 shadow "style={{ minHeight: '100%', minWidth: '100%'}}>
       <h2>Overview</h2>
       <div className="row g-3">
         <div className="col-12">

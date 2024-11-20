@@ -1,11 +1,19 @@
-.signin-form {
-  width: 100%;
-  max-width: 400px; 
-  padding: 20px;
-  border-radius: 10px; 
-  text-align: center;
-  
+.signin-container {
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; 
 }
+
+.signin-form {
+    width: 100%;
+    max-width: 400px; 
+    background: #fff;
+    padding: 30px;
+}
+
 
 .signin-button {
   width: 100%;
@@ -29,7 +37,6 @@
   box-shadow: none;
 }
 .form-select {
-  border-radius: 40px; 
   height: 60px;
 }
 
@@ -40,6 +47,11 @@
 
 .iniformsignin .isiformsignin{
   padding-left: 25px;
+  padding-right: 25px;
+}
+
+.iniformsignin .isiformsignin-password{
+  padding-right: 50px;
 }
 
 .login-link:hover{

@@ -1,0 +1,17 @@
+.badge-custom {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    background-color: transparent !important;
+}
+
+.badge-spending {
+    color: #ff4747; 
+    border: 1px solid #ff4747;
+}
+
+.badge-earning {
+    color: #027173; 
+    border: 1px solid #027173;
+}

@@ -1,32 +1,15 @@
-.profile-container {
-    position: relative;
-    padding: 20px;
-  }
-  
-  .profile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .edit-icon {
-    cursor: pointer;
-    font-size: 1.2em;
-    color: #007bff;
-  }
-  
-  .profile-field {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .profile-field label {
-    width: 150px;
-;
-  }
-  
-  .action-buttons {
-    margin-top: 15px;
-  }
+.button-edit-profile{
+  background-color: #00b4b8;
+  border: 0;
+}
+
+.button-edit-profile:hover{
+  background-color: #027173;
+  border: 0;
+}
+
+.button-edit-profile:active{
+  background-color: #303030 !important;
+  color: white !important;
+}
   

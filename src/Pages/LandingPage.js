@@ -15,7 +15,6 @@ import FinancialReportingImg from '../Assets/financial-reporting.svg';
 const LandingPage = () => {
   return (
     <div>
-      {/* Navbar */}
       <Navbar sticky="top" style={{ backgroundColor: '#15B7B9' }} variant="dark" expand="md" className="px-4 shadow-sm container-fluid py-0">
         <Navbar.Brand href="#" className="d-flex align-items-center pb-2">
           <img src={BudgetinLogo} alt="Budgetin Logo" width="130" height="40" />
@@ -31,11 +30,9 @@ const LandingPage = () => {
         </Navbar.Collapse>
       </Navbar>
 
-      {/* Header Section */}
       <section className="header-section text-light py-5" style={{ backgroundColor: '#15B7B9' }}>
         <Container>
           <Row className="align-items-center">
-            {/* Text Section */}
             <Col md={6} className="text-center text-md-start mb-4 mb-md-0">
               <h1>Welcome to Budgetin</h1>
               <p className="lead">Manage your finances effortlessly with Budgetin. Track expenses, set budgets, and more.</p>
@@ -43,7 +40,6 @@ const LandingPage = () => {
             Get Started
           </Button>
             </Col>
-            {/* Image Section */}
             <Col md={6} className="text-center d-none d-md-block">
               <img src={BudgetinLandingImg} alt="Welcome to Budgetin" style={{ maxWidth: '70%', height: 'auto' }} />
             </Col>
@@ -51,7 +47,6 @@ const LandingPage = () => {
         </Container>
       </section>
 
-      {/* Features Section with Swiper */}
       <section id="features" className="py-5 bg-light">
         <Container>
           <h2 className="text-center mb-4">Key Features</h2>
@@ -137,7 +132,6 @@ const LandingPage = () => {
         </Container>
       </section>
 
-      {/* About Section */}
       <section id="about" className="py-5">
         <Container className="text-center">
           <h2>About Budgetin</h2>
@@ -148,7 +142,6 @@ const LandingPage = () => {
         </Container>
       </section>
 
-      {/* Contact Section */}
       <section id="contact" className="py-5 bg-light">
         <Container className="text-center">
           <h2>Contact Us</h2>
@@ -159,7 +152,6 @@ const LandingPage = () => {
         </Container>
       </section>
 
-      {/* Footer */}
       <footer className="text-center text-light py-4" style={{ backgroundColor: '#15B7B9' }}>
         <Container>
           <p className="mb-0">&copy; 2024 Budgetin. All rights reserved.</p>

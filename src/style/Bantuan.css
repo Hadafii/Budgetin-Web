@@ -2,3 +2,7 @@ a {
     color: #15B7B9;
     text-decoration: none;
 }
+
+a:hover{
+    color: #027173;
+}

@@ -1,5 +1,18 @@
+.login-container {
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; 
+}
 
-/* Memberikan font Lato ke seluruh form */
+.login-form {
+  width: 100%;
+  max-width: 400px; 
+  padding: 30px;
+}
+
 .btn-custom-login {
   background-color: #15B7B9; 
   color: #fff;
@@ -21,10 +34,28 @@
   box-shadow: none;
 }
 
-
 .isiformlogin {
     border-radius: 30px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding-right: 50px; 
+    
+}
+
+.password-toggle {
+    font-size: 20px;
+    color: #6c757d;
+    border-radius: 30px; 
+    border: black; 
+    background-color: black; 
+    position: absolute;
+}
+
+.password-toggle:hover {
+    color: #15B7B9;
+}
+
+.password-input {
+    padding-right: 50px; 
 }
 
 
@@ -34,7 +65,34 @@
 
 .iniformlogin .isiformlogin {
   padding-left: 25px;
+  padding-right: 25px;
 }
 
+.iniformlogin .isiformlogin-password {
+  padding-right: 50px;
+  padding-left: 25px;
+}
 
+.verfif-otp{
+  background-color: #15B7B9; 
+  color: #fff;
+  border: none;
+}
+
+.verfif-otp:hover {
+  background-color: #027173 !important; 
+  color: #fff;
+}
+
+.verfif-otp:active{
+  background-color: #e7e7e7 !important; 
+  color: #027173 !important; 
+}
+
+.budgetin-button-link{
+  color: #15B7B9; 
+}
+.budgetin-button-link:hover{
+  color: #027173
+}
 
