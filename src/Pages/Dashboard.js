@@ -59,7 +59,7 @@ function Dashboard({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
 
             if (result.success) {
                 setAccountName(result.account_name);
-            } else if (result.message === "Token expired") {
+            } else if (result.message === "Invalid token") {
                 console.warn("Token expired. Attempting to refresh...");
                 const refreshed = await refreshToken();
                 if (refreshed) {
@@ -93,7 +93,7 @@ function Dashboard({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
                 </h1>
                 <p>Selamat datang di dashboard Anda!</p>
 
-                <div className="row-flex pb-3">
+                <div className="row-flex pb-3 d-none d-lg-flex">
                     <div className=" overview">
                         <OverviewCard />
                     </div>
@@ -101,8 +101,7 @@ function Dashboard({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
                         <BudgetCard />
                     </div>
                 </div>
-
-                <div className="row-flex pb-3">
+                <div className="row-flex pb-3 d-none d-lg-flex">
                     <div className="overview-laporan">
                         <OverviewLaporanUangRechart />
                     </div>
@@ -110,6 +109,15 @@ function Dashboard({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
                         <TransaksiTerbaru />
                     </div>
                 </div>
+
+                <div className="row d-flex d-lg-none g-4">
+                    <OverviewCard />
+                    <BudgetCard />
+                    <OverviewLaporanUangRechart />
+                    <TransaksiTerbaru />
+                </div>
+
+
             </div>
         </Page>
     );

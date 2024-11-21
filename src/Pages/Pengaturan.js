@@ -8,13 +8,24 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
   const [show, setShow] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); 
-  const [feedbackMessage, setFeedbackMessage] = useState(""); 
-  const [isInvalidPassword, setIsInvalidPassword] = useState(false); 
-  const [showAlert, setShowAlert] = useState(false); 
-  const [alertMessage, setAlertMessage] = useState(""); 
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [isInvalidPassword, setIsInvalidPassword] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    // Reset semua state terkait form
+    setCurrentPassword("");
+    setFeedbackMessage("");
+    setIsInvalidPassword(false);
+    setShowCurrentPassword(false);
+    setShowAlert(false);
+
+    // Tutup modal
+    setShow(false);
+  };
+
   const handleShow = () => setShow(true);
 
   const togglePasswordVisibility = () => {
@@ -144,15 +155,15 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose} disabled={isDeleting}>
-              Cancel
-            </Button>
             <Button 
               className='button-delete-account'
               onClick={handleDeleteAccount} 
               disabled={isDeleting}
             >
               {isDeleting ? <Spinner animation="border" size="sm" /> : "Confirm"}
+            </Button>
+            <Button variant="secondary" onClick={handleClose} disabled={isDeleting}>
+              Cancel
             </Button>
           </Modal.Footer>
         </Modal>

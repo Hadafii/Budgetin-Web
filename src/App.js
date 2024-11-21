@@ -1,9 +1,9 @@
 import React, { useState, useEffect  } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import 'swiper/swiper-bundle.css';
-import Sidebar from './components/Sidebar';
 import Dashboard from './Pages/Dashboard';
 import Notifikasi from './Pages/Notifikasi';
 import Login from './Pages/Loginform';
@@ -11,6 +11,7 @@ import Pengeluaran from './Pages/Pengeluaran';
 import Profile from './Pages/Profile';
 import Landing from './Pages/LandingPage';
 import Test from './Pages/Testpage';
+import NotFound from './Pages/NotFound';
 
 import Rencana from './Pages/Rencana';
 import Signin from './Pages/Signinform';
@@ -33,9 +34,8 @@ const App = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Periksa apakah token ada di localStorage saat pertama kali dimuat
     const token = localStorage.getItem("token");
-    return !!token; // Jika token ada, anggap pengguna telah login
+    return !!token; 
   });
 
   const refreshAuthToken = async () => {
@@ -46,7 +46,6 @@ const App = () => {
         return;
       }
 
-      // Panggil API refreshToken
       const response = await fetch("https://api.dafiutomo.com/GatewayApi/v1/refreshToken", {
         method: "POST",
         headers: {
@@ -58,24 +57,24 @@ const App = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          localStorage.setItem("token", data.token); // Simpan token baru
-          setIsAuthenticated(true); // Tetap authenticated
+          localStorage.setItem("token", data.token); 
+          setIsAuthenticated(true); 
         } else {
-          handleLogout(); // Jika refresh gagal, logout
+          handleLogout(); 
         }
       } else {
-        handleLogout(); // Jika respon bukan 200 OK, logout
+        handleLogout();
       }
     } catch (error) {
       console.error("Error refreshing token:", error);
-      handleLogout(); // Logout jika ada masalah
+      handleLogout();
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Hapus token
-    setIsAuthenticated(false); // Ubah status autentikasi menjadi false
-    window.location.href = "/Login"; // Arahkan ke halaman login
+    localStorage.removeItem("token");
+    setIsAuthenticated(false); 
+    window.location.href = "/Login";
   };
 
   useEffect(() => {
@@ -106,6 +105,7 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-email" element={<OTPVerification onLoginSuccess={handleLoginSuccess}/>} />
+        <Route path="*" element={<NotFound />} />
 
         <Route path="/Dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard collapsed={collapsed} toggleSidebar={toggleSidebar} showOffcanvas={showOffcanvas} handleShowOffcanvas={handleShowOffcanvas} handleCloseOffcanvas={handleCloseOffcanvas} /></ProtectedRoute>} />
 

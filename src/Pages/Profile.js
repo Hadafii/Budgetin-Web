@@ -63,8 +63,11 @@ function Profile() {
     e.preventDefault();
     let validationErrors = {};
 
-    if (userData.account_name.length > 16) {
-      validationErrors.account_name = "Account name tidak boleh lebih dari 16 karakter";
+    const accWordCount = /^\b[a-zA-Z ]{1,16}\b$/; 
+    if (!userData.account_name.trim()) {
+      validationErrors.account_name = "Nama akun tidak boleh kosong.";
+    } else if (!accWordCount.test(userData.account_name)) {
+      validationErrors.account_name = "Nama akun hanya boleh berisi huruf dan spasi, dengan panjang maksimal 16 karakter.";
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,16 +75,18 @@ function Profile() {
       validationErrors.email = "Email harus valid dan mengandung '@'";
     }
 
-    const bioWordCount = userData.bio.trim().split(/\s+/).length;
-    if (bioWordCount > 100) {
-      validationErrors.bio = "Bio tidak boleh lebih dari 100 kata";
+    if (userData.bio) {
+      const bioWordCount = userData.bio.trim().split(/\s+/).length;
+      if (bioWordCount > 100) {
+        validationErrors.bio = "Bio tidak boleh lebih dari 100 kata.";
+      }
     }
 
     const phonePattern = /^(?:\+62|08)[0-9]{8,13}$/;
-    if (!phonePattern.test(userData.phone_number)) {
-      validationErrors.phone_number = "Nomor telepon harus dimulai dengan +62 atau 08 dan berjumlah 10-15 angka";
+    if (userData.phone_number && !phonePattern.test(userData.phone_number)) {
+      validationErrors.phone_number = "Nomor telepon harus dimulai dengan +62 atau 08 dan berjumlah 10-15 angka.";
     }
-
+    
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -97,8 +102,8 @@ function Profile() {
         account_name: userData.account_name,
         gender: userData.gender,
         email: userData.email,
-        phone_number: userData.phone_number,
-        bio: userData.bio
+        phone_number: userData.phone_number || "",
+        bio: userData.bio || "",
       })
     })
       .then(response => response.json())
@@ -300,7 +305,7 @@ function Profile() {
                   <FloatingLabel label="Account Name" className="mb-3">
                     <Form.Control
                       type="text"
-                      defaultValue={userData.account_name}
+                      value={userData.account_name}
                       onChange={(e) => setUserData({ ...userData, account_name: e.target.value })}
                       isInvalid={!!errors.account_name}
                     />
@@ -327,7 +332,7 @@ function Profile() {
                   <FloatingLabel label="Phone Number" className="mb-3">
                     <Form.Control
                       type="text"
-                      defaultValue={userData.phone_number}
+                      value={userData.phone_number}
                       onChange={(e) => setUserData({ ...userData, phone_number: e.target.value })}
                       isInvalid={!!errors.phone_number}
                     />
@@ -337,7 +342,7 @@ function Profile() {
                     <Form.Control
                       as="textarea"
                       style={{ height: '80px', maxHeight: '200px' }}
-                      defaultValue={userData.bio}
+                      value={userData.bio}
                       onChange={(e) => setUserData({ ...userData, bio: e.target.value })}
                       isInvalid={!!errors.bio}
                     />

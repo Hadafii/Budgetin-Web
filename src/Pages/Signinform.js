@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Form, Container, FloatingLabel } from 'react-bootstrap';
+import { Button, Form, Container, FloatingLabel, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../style/Signinform.css';
 
 function Signinform() {
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -25,6 +26,7 @@ function Signinform() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const form = event.currentTarget;
     let hasError = false;
 
@@ -121,8 +123,7 @@ function Signinform() {
         if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
             age--; 
         }
-        
-        let hasError = false;
+
         
         if (age < 13) {
             setDobError('Anda harus berusia minimal 13 tahun untuk mendaftar.');
@@ -157,6 +158,7 @@ function Signinform() {
     if (hasError) {
       setError('Please fill out all required fields correctly.');
       setValidated(false); 
+      setLoading(false);
   } else {
       setError('');
       setValidated(true); 
@@ -185,6 +187,8 @@ function Signinform() {
       } catch (error) {
           console.error("Error during registration:", error);
           setError("An error occurred during registration. Please try again later.");
+      } finally {
+          setLoading(false); 
       }
   }
   
@@ -195,7 +199,7 @@ function Signinform() {
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="signin-form p-4">
         <h1 className="text-center mb-3"><b>Create Account</b></h1>
 
-        <FloatingLabel controlId="formBasicUsername" label="Username (Tidak dapat diubah!)" className="mb-3 iniformsignin">
+        <FloatingLabel controlId="formBasicUsername" label="Username (Tidak dapat diubah!)" className="mb-3 iniformsignin text-center">
           <Form.Control 
             type="text" 
             placeholder="Username "  
@@ -206,7 +210,7 @@ function Signinform() {
           <Form.Text className="text-danger">{usernameError}</Form.Text>
         </FloatingLabel>
 
-        <FloatingLabel controlId="formBasicPassword" label="Password" className="mb-3 iniformsignin">
+        <FloatingLabel controlId="formBasicPassword" label="Password" className="mb-3 iniformsignin text-center">
           <Form.Control 
             type={showPassword ? "text" : "password"}
             placeholder="Password" 
@@ -233,7 +237,7 @@ function Signinform() {
           <Form.Text className="text-danger">{passwordError}</Form.Text>
         </FloatingLabel>
 
-        <FloatingLabel controlId="formNama" label="Name" className="mb-3 iniformsignin">
+        <FloatingLabel controlId="formNama" label="Name" className="mb-3 iniformsignin text-center">
           <Form.Control 
             type="text" 
             placeholder="Name" 
@@ -243,7 +247,7 @@ function Signinform() {
           />
         </FloatingLabel>
 
-        <FloatingLabel controlId="formEmail" label="Email" className="mb-3 iniformsignin">
+        <FloatingLabel controlId="formEmail" label="Email" className="mb-3 iniformsignin text-center">
           <Form.Control 
             type="email" 
             placeholder="Email" 
@@ -254,7 +258,7 @@ function Signinform() {
           <Form.Text className="text-danger">{emailError}</Form.Text>
         </FloatingLabel>
 
-        <FloatingLabel controlId="formTanggalLahir" label="Date of Birth" className="mb-3 iniformsignin">
+        <FloatingLabel controlId="formTanggalLahir" label="Date of Birth" className="mb-3 iniformsignin text-center">
           <Form.Control 
             type="date" 
             required 
@@ -265,7 +269,7 @@ function Signinform() {
           <Form.Text className="text-danger">{dobError}</Form.Text>
         </FloatingLabel>
 
-        <Form.Group controlId="formJenisKelamin" className="mb-3 iniformsignin">
+        <Form.Group controlId="formJenisKelamin" className="mb-3 iniformsignin text-center">
           <Form.Select required className="isiformsignin" aria-label="Gender" isInvalid={genderValid === false} isValid={genderValid === true}>
             <option selected disabled value="">Pilih Jenis Kelamin</option>
             <option value="Male">Laki-Laki</option>
@@ -273,7 +277,7 @@ function Signinform() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group controlId="formRole" className="mb-4 iniformsignin">
+        <Form.Group controlId="formRole" className="mb-4 iniformsignin text-center">
           <Form.Select required className="isiformsignin" aria-label="Occupation" isInvalid={roleValid === false} isValid={roleValid === true} >
             <option selected disabled>Pilih Role</option>
             <option value="Student">Pelajar</option>
@@ -281,10 +285,10 @@ function Signinform() {
           </Form.Select>
         </Form.Group> 
 
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p className="text-danger text-center">{error}</p>}
 
-        <Button type="submit" className="signin-button w-100 mb-3 iniformsignin">
-          Sign Up
+        <Button type="submit" className="signin-button w-100 mb-3" disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : 'Sign Up'}
         </Button>
 
         <div className="text-center">
