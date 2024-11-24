@@ -45,7 +45,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
             <i className="bi bi-question-circle-fill me-2"></i>
             {!isCollapsed && <span>Bantuan</span>}
           </Nav.Link>
-          <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4" style={{color:'red'}} >
+          <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4 button-keluar"  >
             <i className="bi bi-box-arrow-left me-2"></i>
             {!isCollapsed && <span>Keluar</span>}
           </Nav.Link>
@@ -103,8 +103,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar, showOffcanvas, handleShowOffcanva
               <i className="bi bi-question-circle-fill me-2"></i>
               <span>Bantuan</span>
             </Nav.Link>
-            <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4 " >
-              <i className="bi bi-box-arrow-left me-2" ></i>
+            <Nav.Link onClick={handleLogout} className="d-flex align-items-center p-3 px-4 button-keluar">
+              <i className="bi bi-box-arrow-left me-2"  ></i>
               <span>Keluar</span>
             </Nav.Link>
           </Nav>

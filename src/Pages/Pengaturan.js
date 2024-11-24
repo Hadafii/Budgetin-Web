@@ -127,7 +127,7 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
           </Modal.Header>
           <Modal.Body>
             <p>Semua history dan data dari akun akan dihapus. Anda tidak dapat login lagi!</p>
-            
+
             {showAlert && (
               <Alert variant="danger" dismissible onClose={() => setShowAlert(false)}>
                 {alertMessage}
@@ -135,29 +135,33 @@ function Settings({ collapsed, toggleSidebar, showOffcanvas, handleShowOffcanvas
             )}
 
             <Form>
-              <InputGroup className="mb-3">
-                <FloatingLabel label="Kata Sandi" className="flex-grow-1">
-                  <Form.Control
-                    type={showCurrentPassword ? "text" : "password"}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    placeholder="Masukkan kata sandi Anda"
-                    isInvalid={isInvalidPassword} 
-                  />
-                  <Form.Control.Feedback type="invalid">
+              <div className="mb-3">
+                <InputGroup>
+                  <FloatingLabel label="Kata Sandi" className="flex-grow-1">
+                    <Form.Control
+                      type={showCurrentPassword ? "text" : "password"}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Masukkan kata sandi Anda"
+                      isInvalid={isInvalidPassword}
+                    />
+                  </FloatingLabel>
+                  <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
+                    <i className={`bi ${showCurrentPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
+                  </InputGroup.Text>
+                </InputGroup>
+                {isInvalidPassword && (
+                  <Form.Text className="text-danger">
                     {feedbackMessage || "Password salah. Silakan coba lagi."}
-                  </Form.Control.Feedback>
-                </FloatingLabel>
-                <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
-                  <i className={`bi ${showCurrentPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
-                </InputGroup.Text>
-              </InputGroup>
+                  </Form.Text>
+                )}
+              </div>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button 
-              className='button-delete-account'
-              onClick={handleDeleteAccount} 
+            <Button
+              className="button-delete-account"
+              onClick={handleDeleteAccount}
               disabled={isDeleting}
             >
               {isDeleting ? <Spinner animation="border" size="sm" /> : "Confirm"}

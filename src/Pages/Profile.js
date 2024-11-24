@@ -385,26 +385,34 @@ function Profile() {
                   <FloatingLabel label="Username" className="mb-3">
                     <Form.Control type="text" value={userData.username} readOnly />
                   </FloatingLabel>
-                  <InputGroup className="mb-3">
+                  
+                  <div className="mb-3">
+                  <InputGroup >
                     <FloatingLabel label="Kata Sandi Saat Ini" className="flex-grow-1">
-                        <Form.Control
-                          type={showCurrentPassword ? "text" : "password"}
-                          name="currentPassword"
-                          placeholder="Masukkan kata sandi saat ini"
-                          value={currentPassword}
-                          onChange={handlePasswordChange}
-                          isInvalid={!!passwordErrors.currentPassword}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {passwordErrors.currentPassword}
-                        </Form.Control.Feedback>
-                      </FloatingLabel>
-                      <InputGroup.Text onClick={() => togglePasswordVisibility("current")} style={{ cursor: "pointer" }}>
-                        <i className={`bi ${showCurrentPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
-                      </InputGroup.Text>
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
+                      <Form.Control
+                        type={showCurrentPassword ? "text" : "password"}
+                        name="currentPassword"
+                        placeholder="Masukkan kata sandi saat ini"
+                        value={currentPassword}
+                        onChange={handlePasswordChange}
+                        isInvalid={!!passwordErrors.currentPassword}
+                      />
+                    </FloatingLabel>
+                    <InputGroup.Text
+                      onClick={() => togglePasswordVisibility("current")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i className={`bi ${showCurrentPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
+                    </InputGroup.Text>
+                  </InputGroup>
+                  {passwordErrors.currentPassword && (
+                    <div className="text-danger small mb-3">
+                      {passwordErrors.currentPassword}
+                    </div>
+                  )}
+                  </div>
+                  <div className="mb-3">
+                    <InputGroup>
                       <FloatingLabel label="Kata Sandi Baru" className="flex-grow-1">
                         <Form.Control
                           type={showNewPassword ? "text" : "password"}
@@ -414,16 +422,23 @@ function Profile() {
                           onChange={handlePasswordChange}
                           isInvalid={!!passwordErrors.newPassword}
                         />
-                        <Form.Control.Feedback type="invalid">
-                          {passwordErrors.newPassword}
-                        </Form.Control.Feedback>
                       </FloatingLabel>
-                      <InputGroup.Text onClick={() => togglePasswordVisibility("new")} style={{ cursor: "pointer" }}>
+                      <InputGroup.Text
+                        onClick={() => togglePasswordVisibility("new")}
+                        style={{ cursor: "pointer" }}
+                      >
                         <i className={`bi ${showNewPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
                       </InputGroup.Text>
                     </InputGroup>
+                    {passwordErrors.newPassword && (
+                      <Form.Text className="text-danger">
+                        {passwordErrors.newPassword}
+                      </Form.Text>
+                    )}
+                  </div>
 
-                    <InputGroup className="mb-3">
+                  <div className="mb-3">
+                    <InputGroup>
                       <FloatingLabel label="Ulangi Kata Sandi Baru" className="flex-grow-1">
                         <Form.Control
                           type={showConfirmPassword ? "text" : "password"}
@@ -433,15 +448,20 @@ function Profile() {
                           onChange={handlePasswordChange}
                           isInvalid={!!passwordErrors.confirmPassword}
                         />
-                        <Form.Control.Feedback type="invalid">
-                          {passwordErrors.confirmPassword}
-                        </Form.Control.Feedback>
                       </FloatingLabel>
-                      <InputGroup.Text onClick={() => togglePasswordVisibility("confirm")} style={{ cursor: "pointer" }}>
+                      <InputGroup.Text
+                        onClick={() => togglePasswordVisibility("confirm")}
+                        style={{ cursor: "pointer" }}
+                      >
                         <i className={`bi ${showConfirmPassword ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
                       </InputGroup.Text>
                     </InputGroup>
-
+                    {passwordErrors.confirmPassword && (
+                      <Form.Text className="text-danger">
+                        {passwordErrors.confirmPassword}
+                      </Form.Text>
+                    )}
+                  </div>
                     {passwordErrors.currentPassword && (
                       <div className=" mb-3 text-start">
                         <div>

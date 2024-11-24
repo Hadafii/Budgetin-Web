@@ -174,26 +174,38 @@ function DetailBudgetCard({ token, budgetId, monthlyBudget, refreshParent }) {
                     <Col>
                         <FloatingLabel controlId={`floatingSelect-${form.id}`} label="Category">
                         <Form.Select
-                            value={form.category_id}
-                            disabled={!isEditing} 
-                            isInvalid={isInvalidForm}
-                            onChange={(e) =>
+                          value={form.category_id}
+                          disabled={!isEditing}
+                          isInvalid={form.isInvalidCategory}
+                          onChange={(e) =>
                             setDetailForms((prev) =>
-                                prev.map((f) =>
-                                f.id === form.id ? { ...f, category_id: e.target.value } : f
-                                )
+                              prev.map((f) =>
+                                f.id === form.id ? { ...f, category_id: e.target.value, isInvalidCategory: false } : f
+                              )
                             )
-                            }
+                          }
                         >
-                            <option value="" disabled>
+                          <option value="" disabled>
                             Select Category
+                          </option>
+                          {categories.map((cat) => (
+                            <option
+                              key={cat.category_id}
+                              value={cat.category_id}
+                              disabled={
+                                !isEditing || // Nonaktifkan jika bukan mode edit
+                                budgetDetails.some((detail) => detail.category_id === cat.category_id) // Nonaktifkan jika kategori sudah dipakai
+                              }
+                            >
+                              {cat.category_name}
                             </option>
-                            {categories.map((cat) => (
-                            <option key={cat.category_id} value={cat.category_id}>
-                                {cat.category_name}
-                            </option>
-                            ))}
+                          ))}
                         </Form.Select>
+                        <Form.Control.Feedback type="invalid">
+                          {form.category_id === ""
+                            ? "Please select a category."
+                            : "This category is already selected."}
+                        </Form.Control.Feedback>
                         </FloatingLabel>
                     </Col>
                     <Col>

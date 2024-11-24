@@ -31,8 +31,13 @@ function Signinform() {
     let hasError = false;
 
     const username = form.formBasicUsername.value.trim();
+    const usernamePattern = /^[a-z]{4,}$/; 
     if (!username) {
         setUsernameError('Username is required');
+        setUsernameValid(false);
+        hasError = true;
+    } else if (!usernamePattern.test(username)) {
+        setUsernameError('Username must be at least 4 characters long, lowercase letters only, and no spaces.');
         setUsernameValid(false);
         hasError = true;
     } else {
@@ -58,6 +63,10 @@ function Signinform() {
     const email = form.formEmail.value.trim();
     if (!email) {
         setEmailError('Please enter an email address.');
+        setEmailValid(false);
+        hasError = true;
+    } else if (/\s/.test(email)) { // Validasi spasi di email.
+        setEmailError('Email must not contain spaces.');
         setEmailValid(false);
         hasError = true;
     } else if (!/\S+@\S+\.\S+/.test(email)) {

@@ -12,6 +12,23 @@ function ResetPassword() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const validatePassword = (password) => {
+        const minLength = 8;
+        const validCharacters = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+    
+        if (password.length < minLength) {
+            return "Password harus memiliki minimal 8 karakter.";
+        }
+    
+        if (!validCharacters.test(password)) {
+            return "Password mengandung karakter yang tidak valid.";
+        }
+    
+        return ""; // Tidak ada error
+    };
+    
+    
+
     const token = searchParams.get("token");
 
     useEffect(() => {
@@ -25,6 +42,13 @@ function ResetPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setPasswordError("");
+
+        // Validasi password baru
+        const error = validatePassword(newPassword);
+        if (error) {
+            setPasswordError(error);
+            return; // Hentikan proses jika password tidak valid
+        }
         setIsLoading(true); 
 
         if (newPassword !== confirmPassword) {
@@ -70,15 +94,17 @@ function ResetPassword() {
                     <p className="text-muted text-center">Masukkan password baru Anda di bawah ini.</p>
 
                     <Form onSubmit={handleSubmit}>
-                        <FloatingLabel label="Password Baru" className="mb-3">
-                            <Form.Control
-                                type="password"
-                                placeholder="Password Baru"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                isInvalid={!!passwordError}
-                            />
-                        </FloatingLabel>
+                    <FloatingLabel label="Password Baru" className="mb-3">
+                        <Form.Control
+                            type="password"
+                            placeholder="Masukkan password baru"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            isInvalid={!!passwordError}
+                        />
+                        <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
+                    </FloatingLabel>
+
 
                         <FloatingLabel label="Konfirmasi Password Baru" className="mb-3">
                             <Form.Control

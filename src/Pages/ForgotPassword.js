@@ -103,7 +103,7 @@ function ForgotPassword() {
                     <p>{modalMessage}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn-custom-login" onClick={() => setShowModal(false)}>
+                    <Button className="button-edit-profile" onClick={() => setShowModal(false)}>
                         Tutup
                     </Button>
                 </Modal.Footer>

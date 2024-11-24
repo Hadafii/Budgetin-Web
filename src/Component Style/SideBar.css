@@ -8,6 +8,14 @@
   transition: width 0.3s ease;
 }
 
+.button-keluar{
+  color: red !important;
+}
+
+.button-keluar:hover{
+  color: rgb(255, 140, 140) !important;
+}
+
 .sidebar .nav-link:hover {
   color: #15B7B9;
   text-decoration: none; 
